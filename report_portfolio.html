@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Index — Data Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/*
+  ============================================================================
+  HOW TO USE THIS FILE
+  ============================================================================
+  1. For each report card below, go to Power BI Service -> open your report ->
+     File -> Embed report -> Publish to web (public) -> Create embed code.
+  2. Copy the src="..." URL from the <iframe> code Power BI gives you.
+  3. Find the matching <!-- REPORT CARD --> block below and paste that URL
+     into the iframe's src attribute where it says PASTE_EMBED_URL_HERE.
+  4. Rename the category / title / description text to match your report.
+  5. Duplicate a whole <!-- REPORT CARD --> block to add more reports.
+  Cards left with the placeholder URL automatically show an "awaiting report"
+  state instead of a broken embed, so it's safe to publish before every
+  slot is filled in.
+  ============================================================================
+*/
+:root{
+  --paper:#F2F4F0;
+  --card:#FFFFFF;
+  --ink:#1E2420;
+  --ink-soft:#5B655E;
+  --ink-faint:#8B948C;
+  --line:#DBE0D8;
+  --accent:#1B6B5C;
+  --accent-soft:#E6F0EC;
+  --warm:#C98A2C;
+  --warm-soft:#F7ECD9;
+  --font-display:'Newsreader',Georgia,serif;
+  --font-body:'IBM Plex Sans','Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-body);
+  line-height:1.5;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+/* ---------- Header ---------- */
+header{padding:64px 0 40px;border-bottom:1px solid var(--line);}
+.eyebrow{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;
+  color:var(--accent);text-transform:uppercase;margin-bottom:18px;
+  display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);}
+h1{
+  font-family:var(--font-display);font-weight:500;font-style:italic;
+  font-size:clamp(34px,5vw,52px);letter-spacing:-0.01em;max-width:14ch;
+}
+.dek{
+  margin-top:16px;color:var(--ink-soft);font-size:16px;max-width:52ch;
+}
+.meta-row{
+  display:flex;gap:28px;margin-top:28px;font-family:var(--font-mono);
+  font-size:12px;color:var(--ink-faint);flex-wrap:wrap;
+}
+.meta-row strong{color:var(--ink-soft);font-weight:500;}
+
+/* ---------- Category rail ---------- */
+.layout{display:grid;grid-template-columns:180px 1fr;gap:0;}
+.rail{
+  padding:40px 24px 40px 0;border-right:1px solid var(--line);
+  position:sticky;top:0;align-self:start;height:fit-content;
+}
+.rail-label{
+  font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);
+  text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;
+}
+.rail-item{
+  display:block;padding:9px 0;font-size:13.5px;color:var(--ink-soft);
+  text-decoration:none;border-left:2px solid transparent;padding-left:12px;
+  margin-left:-13px;transition:all .15s ease;cursor:pointer;
+}
+.rail-item:hover{color:var(--ink);border-left-color:var(--line);}
+.rail-item.active{color:var(--accent);border-left-color:var(--accent);font-weight:500;}
+
+/* ---------- Catalog grid ---------- */
+.catalog{padding:40px 0 80px 40px;display:flex;flex-direction:column;gap:28px;}
+
+.entry{
+  background:var(--card);border:1px solid var(--line);border-radius:4px;
+  overflow:hidden;transition:box-shadow .2s ease,border-color .2s ease;
+}
+.entry:hover{box-shadow:0 8px 28px rgba(30,36,32,0.08);border-color:#C7CFC5;}
+
+.entry-head{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:26px 28px 20px;gap:24px;flex-wrap:wrap;
+}
+.entry-num{
+  font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);
+  margin-bottom:10px;letter-spacing:0.04em;
+}
+.entry-title{
+  font-family:var(--font-display);font-size:23px;font-weight:500;
+  margin-bottom:8px;
+}
+.entry-desc{color:var(--ink-soft);font-size:14px;max-width:56ch;}
+.tag{
+  font-family:var(--font-mono);font-size:11px;text-transform:uppercase;
+  letter-spacing:0.06em;padding:5px 11px;border-radius:12px;
+  background:var(--warm-soft);color:#8A5D1B;white-space:nowrap;height:fit-content;
+}
+.tag.live{background:var(--accent-soft);color:var(--accent);}
+
+.entry-frame-wrap{
+  border-top:1px solid var(--line);background:#FAFBF9;
+  aspect-ratio:16/9;position:relative;
+}
+.entry-frame-wrap iframe{width:100%;height:100%;border:none;display:block;}
+
+.awaiting{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;color:var(--ink-faint);
+  font-family:var(--font-mono);font-size:12px;text-align:center;padding:20px;
+}
+.awaiting .stamp{
+  border:1.5px dashed #C7CFC5;border-radius:3px;padding:6px 14px;
+  transform:rotate(-3deg);letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--ink-faint);font-size:11px;
+}
+
+.entry-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 28px;border-top:1px solid var(--line);
+}
+.entry-foot a{
+  font-family:var(--font-mono);font-size:12px;color:var(--accent);
+  text-decoration:none;display:flex;align-items:center;gap:6px;
+}
+.entry-foot a:hover{text-decoration:underline;}
+.entry-foot .updated{font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);}
+
+@media (max-width:760px){
+  .layout{grid-template-columns:1fr;}
+  .rail{position:static;border-right:none;border-bottom:1px solid var(--line);
+        padding:24px 0;display:flex;gap:18px;overflow-x:auto;}
+  .rail-label{display:none;}
+  .rail-item{border-left:none;border-bottom:2px solid transparent;margin-left:0;padding:4px 0;white-space:nowrap;}
+  .rail-item.active{border-bottom-color:var(--accent);border-left-color:transparent;}
+  .catalog{padding:32px 0;}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Report index — vol. 01</div>
+    <h1>A working catalog of reports</h1>
+    <p class="dek">Live, interactive Power BI reports built across different domains — click into any entry below to explore the real thing, not a screenshot.</p>
+    <div class="meta-row">
+      <span><strong>4</strong> reports catalogued</span>
+      <span><strong>Updated</strong> Aug 2026</span>
+      <span><strong>Built with</strong> Power BI</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="rail">
+      <div class="rail-label">Categories</div>
+      <a class="rail-item active" data-filter="all">All reports</a>
+      <a class="rail-item" data-filter="retail">Retail</a>
+      <a class="rail-item" data-filter="finance">Finance</a>
+      <a class="rail-item" data-filter="marketing">Marketing</a>
+      <a class="rail-item" data-filter="operations">Operations</a>
+    </nav>
+
+    <main class="catalog" id="catalog">
+
+      <!-- REPORT CARD 1 — replace title/description/embed URL as needed -->
+      <article class="entry" data-category="retail">
+        <div class="entry-head">
+          <div>
+            <div class="entry-num">No. 01</div>
+            <div class="entry-title">Retail sales performance</div>
+            <div class="entry-desc">Executive summary, category and store-level breakdowns, and an inventory movement view across a two-year retail dataset.</div>
+          </div>
+          <span class="tag">Retail</span>
+        </div>
+        <div class="entry-frame-wrap">
+          <iframe
+            src="PASTE_EMBED_URL_HERE_1"
+            title="Retail sales performance report"
+            allowfullscreen
+            onerror="this.parentElement.classList.add('needs-embed')"></iframe>
+          <div class="awaiting"><div class="stamp">Awaiting embed</div>paste your Publish to Web URL here</div>
+        </div>
+        <div class="entry-foot">
+          <a href="PASTE_EMBED_URL_HERE_1" target="_blank" rel="noopener">Open full screen &#8599;</a>
+          <span class="updated">Last refreshed — Aug 2026</span>
+        </div>
+      </article>
+
+      <!-- REPORT CARD 2 — duplicate this block for each new report -->
+      <article class="entry" data-category="finance">
+        <div class="entry-head">
+          <div>
+            <div class="entry-num">No. 02</div>
+            <div class="entry-title">Financial performance</div>
+            <div class="entry-desc">Revenue, margin and cash flow tracking with variance-to-budget callouts.</div>
+          </div>
+          <span class="tag">Finance</span>
+        </div>
+        <div class="entry-frame-wrap">
+          <iframe
+            src="PASTE_EMBED_URL_HERE_2"
+            title="Financial performance report"
+            allowfullscreen></iframe>
+          <div class="awaiting"><div class="stamp">Awaiting embed</div>paste your Publish to Web URL here</div>
+        </div>
+        <div class="entry-foot">
+          <a href="PASTE_EMBED_URL_HERE_2" target="_blank" rel="noopener">Open full screen &#8599;</a>
+          <span class="updated">Not yet published</span>
+        </div>
+      </article>
+
+      <!-- REPORT CARD 3 -->
+      <article class="entry" data-category="marketing">
+        <div class="entry-head">
+          <div>
+            <div class="entry-num">No. 03</div>
+            <div class="entry-title">Marketing &amp; campaign analytics</div>
+            <div class="entry-desc">Channel mix, spend efficiency, and funnel conversion across campaigns.</div>
+          </div>
+          <span class="tag">Marketing</span>
+        </div>
+        <div class="entry-frame-wrap">
+          <iframe
+            src="PASTE_EMBED_URL_HERE_3"
+            title="Marketing analytics report"
+            allowfullscreen></iframe>
+          <div class="awaiting"><div class="stamp">Awaiting embed</div>paste your Publish to Web URL here</div>
+        </div>
+        <div class="entry-foot">
+          <a href="PASTE_EMBED_URL_HERE_3" target="_blank" rel="noopener">Open full screen &#8599;</a>
+          <span class="updated">Not yet published</span>
+        </div>
+      </article>
+
+      <!-- REPORT CARD 4 -->
+      <article class="entry" data-category="operations">
+        <div class="entry-head">
+          <div>
+            <div class="entry-num">No. 04</div>
+            <div class="entry-title">Operations &amp; logistics</div>
+            <div class="entry-desc">Fulfillment times, throughput by facility, and on-time delivery rates.</div>
+          </div>
+          <span class="tag">Operations</span>
+        </div>
+        <div class="entry-frame-wrap">
+          <iframe
+            src="PASTE_EMBED_URL_HERE_4"
+            title="Operations report"
+            allowfullscreen></iframe>
+          <div class="awaiting"><div class="stamp">Awaiting embed</div>paste your Publish to Web URL here</div>
+        </div>
+        <div class="entry-foot">
+          <a href="PASTE_EMBED_URL_HERE_4" target="_blank" rel="noopener">Open full screen &#8599;</a>
+          <span class="updated">Not yet published</span>
+        </div>
+      </article>
+
+    </main>
+  </div>
+</div>
+
+<script>
+// Show the "awaiting embed" state for any card whose URL hasn't been filled in yet.
+document.querySelectorAll('.entry-frame-wrap').forEach(wrap => {
+  const src = wrap.querySelector('iframe').getAttribute('src');
+  if (src.startsWith('PASTE_EMBED_URL_HERE')) {
+    wrap.classList.add('needs-embed');
+  }
+});
+document.querySelectorAll('.needs-embed iframe').forEach(f => f.style.display = 'none');
+document.querySelectorAll('.entry-frame-wrap:not(.needs-embed) .awaiting').forEach(a => a.style.display = 'none');
+
+// Category filter rail
+const railItems = document.querySelectorAll('.rail-item');
+const entries = document.querySelectorAll('.entry');
+railItems.forEach(item => {
+  item.addEventListener('click', () => {
+    railItems.forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    const filter = item.dataset.filter;
+    entries.forEach(entry => {
+      entry.style.display = (filter === 'all' || entry.dataset.category === filter) ? '' : 'none';
+    });
+  });
+});
+</script>
+
+</body>
+</html>
